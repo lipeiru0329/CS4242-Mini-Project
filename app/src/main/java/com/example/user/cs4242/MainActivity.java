@@ -1,5 +1,6 @@
 package com.example.user.cs4242;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Piechart");
         setContentView(R.layout.activity_main);
         pieChart=findViewById(R.id.Piechart);
+        makePieChart("First PieChart");
         now = findViewById(R.id.now);
         total = findViewById(R.id.total);
         next = findViewById(R.id.next);
@@ -114,10 +122,32 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setRotationEnabled(true);
         pieChart.setHoleRadius(25f);
         addData(pieChart);
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                Log.d(TAG, "onValueSelected: " + e.getY() + h.toString());
+                float percetage = e.getY();
+                Log.i(TAG, Float.toString(percetage));
+                int index = Arrays.asList(data).indexOf(23.1f);
+                Log.i("index", Arrays.asList(data).get(1));
+//                Log.d(TAG, "onValueSelected: " + Integer.toString(index));
+                String detail_title = "1";
+//                        Arrays.asList(name).get(index);
+                Intent intent  = new Intent(MainActivity.this, PieChartDetail.class);
+                intent.putExtra("Percetage", Float.toString(percetage));
+                intent.putExtra("Detail_title", detail_title);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
     }
 
     private void addData(PieChart pieChart) {
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        List<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<String> pieName = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
 
@@ -128,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         for(int i = 0 ; i < data.length ; i++) {
-            pieEntries.add(new PieEntry(data[i], i));
+            pieEntries.add(new PieEntry(data[i], name[i]));
         }
 
         for(int i = 0 ; i < name.length ; i++) {
@@ -139,7 +169,16 @@ public class MainActivity extends AppCompatActivity {
         pieDataSet.setSliceSpace(2);
         pieDataSet.setValueTextSize(12);
         pieDataSet.setColors(colors);
-        
+
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+
+
     }
 
 }
