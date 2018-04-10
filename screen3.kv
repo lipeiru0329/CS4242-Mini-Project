@@ -1,0 +1,450 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+#: import Clock kivy.clock.Clock
+
+<CustomLabel@Label>:
+    text_size: self.size
+    valign: "middle"
+    padding_x: 5
+
+<WarningLabel@Label>:
+    text_size: self.size
+    valign: "middle"
+    background_color: 1, 1, 1, 1
+    padding_x: 5
+    bcolor: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: self.bcolor
+
+<SingleLineTextInput@TextInput>:
+    multiline: False
+
+<GreenButton@Button>:
+    background_color: 1, 1, 1, 1
+    size_hint_y: None
+    height: self.parent.height * 0.160
+
+<WarningButton@Button>:
+    background_color: 1, 1, 1, 1
+    size_hint_y: 0.8
+    height: 0.8
+
+<MyPopup@Popup>:
+    auto_dismiss: False
+    Button:
+        text: 'Warning'
+        on_release: root.dismiss()
+
+
+Screen_Management:
+    id: screen_management
+    transition: FadeTransition()
+    LoginScreen:
+        id: loginScreen
+        name: "login_screen"
+        manager: screen_management
+    Main_Screen:
+        id: main_screen
+        name: "main_screen_name"
+        manager: screen_management
+    Analysis_Result_Screen:
+        id: analysis_result_screen_id
+        name: "analysis_result_screen_id"
+        manager: screen_management
+    Analysis_Detail_Screen:
+        id: analysis_detail_screen_id
+        name: "analysis_detail_screen"
+        manager: screen_management
+
+<LoginScreen>:
+    on_enter: root.manager.current = "analysis_result_screen_id"
+
+# Clock.schedule_once(root.callNext, 3)
+    canvas:
+        Rectangle:
+            source: 'mainscreen.jpg'
+            size: self.size
+            pos: self.pos
+
+
+
+<Main_Screen>:
+
+    twitter: chk_twitter
+    facebook: chk_facebook
+    foursqure: chk_foursqure
+    instagram: chk_instagram
+    now_account: now
+    total_account: total
+    warning: warning
+    account_input: account_input
+    go_next: go_next
+    previous: previous
+    text_username: text_username
+
+    canvas:
+        Rectangle:
+            source: 'main.jpg'
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+
+        orientation: 'vertical'
+
+
+        Image:
+            source:"logo.png"
+            size_hint_x: 1
+            valign: 'middle'
+            pos: 120,20
+            padding: 120, 20
+            allow_stretch: True
+
+        Label:
+            valign: "top"
+            font_size: '30sp'
+            size_hint_y: 0.05
+
+
+        Label:
+            text: 'Please choose the Socail Media:'
+            valign: "top"
+            font_size: '20sp'
+            size_hint_y: 0.2
+            padding : 0, 10
+
+        GridLayout:
+            cols: 4
+            padding : 15, 10, 10, 0
+            spacing: 0, 0
+            row_default_height: 40
+            row_force_default: True
+            canvas.before:
+                Color:
+                    rgba: 255, 255, 255, 255
+
+            Label:
+                text: 'Twitter'
+                text_size: self.size
+                valign: 'middle'
+
+            CheckBox:
+                id : chk_twitter
+                on_press: root.insert_data()
+
+            Label:
+                text: 'Facebook'
+                text_size: self.size
+                valign: 'middle'
+
+            CheckBox:
+                id: chk_facebook
+                on_press: root.insert_data()
+
+            Label:
+                text: 'Foursquare'
+                text_size: self.size
+                valign: 'middle'
+
+            CheckBox:
+                id : chk_foursqure
+                on_press: root.insert_data()
+
+            Label:
+                text: 'Instagram.'
+                text_size: self.size
+                valign: 'middle'
+
+            CheckBox:
+                id: chk_instagram
+                on_press: root.insert_data()
+
+        RelativeLayout:
+
+            GridLayout:
+                id: account_input
+                cols: 2
+                padding : 30, 20, 30, 0
+                spacing: 0, 0
+                opacity: 0
+                row_default_height: 40
+                row_force_default: True
+
+                CustomLabel:
+                    id : username
+                    text: 'Username'
+                    text_size: self.size
+                    valign: 'middle'
+                    size_hint_x: None
+                    width: 100
+
+                SingleLineTextInput:
+                    id: text_username
+
+                CustomLabel:
+                    text: 'Password'
+                    text_size: self.size
+                    valign: 'middle'
+                    size_hint_x: None
+                    width: 100
+
+                SingleLineTextInput:
+                    id: txt_age
+
+            Button:
+                text : 'Please choose the social media'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_y: 0.4
+                size_hint_x: 0.8
+                height: '0dp'
+                id: warning
+
+            GridLayout:
+                cols: 3
+                padding : 150, 120, 150, 0
+                spacing: 0, 0
+                row_default_height: 20
+                row_force_default: True
+
+                CustomLabel:
+                    id: now
+                    text: '1'
+                    text_size: self.size
+                    valign: 'middle'
+                    size_hint_x: None
+                    width: 20
+
+                CustomLabel:
+                    text: '/'
+                    text_size: self.size
+                    valign: 'middle'
+                    size_hint_x: None
+                    width: 10
+
+                CustomLabel:
+                    id: total
+                    text: '1'
+                    text_size: self.size
+                    valign: 'middle'
+                    size_hint_x: None
+                    width: 20
+
+        GridLayout:
+            cols: 3
+            padding : 60, 60, 60, 0
+            spacing: 0, 0
+            row_default_height: 10
+            row_force_default: True
+
+            GreenButton:
+                id: previous
+                text: 'Previous'
+                font_size: 14
+                on_press: root.go_previous()
+
+            Label:
+                valign: "top"
+                font_size: '30sp'
+                size_hint_y: 2.0
+
+            GreenButton:
+                id: go_next
+                text: 'Next'
+                on_press: root.goto_next(text_username.text)
+
+        Button:
+            text : 'Analysis'
+            pos_hint: {'center_x': 0.8, 'center_y': 0.6}
+            size_hint_y: 0.4
+            size_hint_x: 0.2
+            height: '0dp'
+            id: toPage2
+            on_release: root.manager.current = "analysis_result_screen_id"
+
+        Label:
+            valign: "top"
+            font_size: '30sp'
+            size_hint_y: 2.0
+
+# Screen 1: Input Screen
+<Analysis_Result_Screen>:
+
+    result1_percentage: result1_percentage
+    result1: result1
+    result2_percentage: result2_percentage
+    result2: result2
+    result3_percentage: result3_percentage
+    result3: result3
+    result4_percentage: result4_percentage
+    result4: result4
+    result5_percentage: result5_percentage
+    result5: result5
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: 'The result of analysis'
+            valign: "top"
+            font_size: '20sp'
+            size_hint_y: 0.2
+            padding : 0, 10
+
+        GridLayout:
+            cols: 1
+            padding : 15, 0, 10, 0
+            row_default_height: 40
+            row_force_default: True
+
+            Label:
+                id: result1
+                text: 'Twitter'
+                valign: 'middle'
+                size_hint_x: None
+                width: 100
+
+            Button:
+                id: result1_percentage
+                text: '65%'
+                size_hint_x: None
+                width: 260
+                background_color:  0.65, 0.7, 0.35, 1
+
+            Label:
+                id: result2
+                text: 'Facebook'
+                valign: 'middle'
+                size_hint_x: None
+                width: 100
+
+            Button:
+                id: result2_percentage
+                text: '25%'
+                size_hint_x: None
+                width: 100
+                bakground_color: 0.25, 0.5, 0.75, 1
+
+            Label:
+                id: result3
+                text: 'FourSquare'
+                text_size: self.size
+                valign: 'middle'
+                size_hint_x: None
+                width: 100
+            Button:
+                id: result3_percentage
+                text: '10%'
+                size_hint_x: None
+                width: 40
+                background_color: 0.1, 0.2, 0.9, 1
+
+            Label:
+                id: result4
+                text: 'Foursquare'
+                valign: 'middle'
+                text_size: self.size
+                size_hint_x: None
+                width: 100
+
+            Button:
+                id: result4_percentage
+                text: '5%'
+                size_hint_x: None
+                width: 20
+                background_color: 0.05, 0.1, 0.95, 1
+
+            Label:
+                id: result5
+                text: 'Foursquare'
+                valign: 'middle'
+                text_size: self.size
+                size_hint_x: None
+                width: 100
+
+            Button:
+                id: result5_percentage
+                text: '5%'
+                size_hint_x: None
+                width: 20
+                background_color: 0.05, 0.1, 0.95, 1
+
+            GridLayout:
+                cols: 3
+                row_default_height: 40
+                row_force_default: True
+
+                GreenButton:
+                    id: previous
+                    text: 'Previous'
+                    font_size: 14
+                    on_press:
+                        root.manager.transition.direction = 'right'
+                        root.manager.current = "main_screen_name"
+                Label:
+                    valign: "top"
+                    font_size: '30sp'
+                    size_hint_y: 2.0
+
+                GreenButton:
+                    id: go_next
+                    text:
+                    on_release: root.manager.current = "analysis_detail_screen"
+
+# Screen 2: Input Inch Screen Data
+<Analysis_Detail_Screen>:
+
+    detail: detail
+    detail_label: detail_label
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: 'The result of analysis'
+            valign: "top"
+            font_size: '20sp'
+            size_hint_y: 0.1
+            padding: 0, 5
+
+        Label:
+            id: detail_label
+            text: 'The result of analysis detail'
+            valign: "top"
+            font_size: '16sp'
+            size_hint_y: 0.1
+            padding: 0, 0
+
+        Label:
+            id: detail
+            text: 'asdkhskfhkldsfhkldshklfsdhklhkdslfhkldshkflhdslkfhlksdfhkldshklfhkldsfhsdkl'
+            text_size: root.width, None
+            size: self.texture_size
+            font_size: '16sp'
+            halign: 'left'
+            vallign: 'bottom'
+            pos: 100, 100
+            padding: 20, 0
+
+        GridLayout:
+            cols: 3
+            row_default_height: 40
+            row_force_default: True
+
+            GreenButton:
+                id: previous
+                text: 'Previous'
+                font_size: 14
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = "analysis_result_screen_id"
+
+            Label:
+                valign: "top"
+                font_size: '30sp'
+                size_hint_y: 2.0
+
+            GreenButton:
+                id: go_next
+                text: 'Detail'
+                # on_press: root.go_search()
