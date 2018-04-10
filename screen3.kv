@@ -70,18 +70,6 @@ Screen_Management:
 
 <Main_Screen>:
 
-    twitter: chk_twitter
-    facebook: chk_facebook
-    foursqure: chk_foursqure
-    instagram: chk_instagram
-    now_account: now
-    total_account: total
-    warning: warning
-    account_input: account_input
-    go_next: go_next
-    previous: previous
-    text_username: text_username
-
     canvas:
         Rectangle:
             source: 'main.jpg'
@@ -92,6 +80,12 @@ Screen_Management:
 
         orientation: 'vertical'
 
+
+        Label:
+            valign: "top"
+            font_size: '30sp'
+            size_hint_y: 0.4
+            text: ""
 
         Image:
             source:"logo.png"
@@ -104,61 +98,16 @@ Screen_Management:
         Label:
             valign: "top"
             font_size: '30sp'
-            size_hint_y: 0.05
+            size_hint_y: 0.4
+            text: ""
 
 
         Label:
-            text: 'Please choose the Socail Media:'
+            text: 'Please type in Twitter Account'
             valign: "top"
             font_size: '20sp'
             size_hint_y: 0.2
-            padding : 0, 10
-
-        GridLayout:
-            cols: 4
-            padding : 15, 10, 10, 0
-            spacing: 0, 0
-            row_default_height: 40
-            row_force_default: True
-            canvas.before:
-                Color:
-                    rgba: 255, 255, 255, 255
-
-            Label:
-                text: 'Twitter'
-                text_size: self.size
-                valign: 'middle'
-
-            CheckBox:
-                id : chk_twitter
-                on_press: root.insert_data()
-
-            Label:
-                text: 'Facebook'
-                text_size: self.size
-                valign: 'middle'
-
-            CheckBox:
-                id: chk_facebook
-                on_press: root.insert_data()
-
-            Label:
-                text: 'Foursquare'
-                text_size: self.size
-                valign: 'middle'
-
-            CheckBox:
-                id : chk_foursqure
-                on_press: root.insert_data()
-
-            Label:
-                text: 'Instagram.'
-                text_size: self.size
-                valign: 'middle'
-
-            CheckBox:
-                id: chk_instagram
-                on_press: root.insert_data()
+            padding : 0, 100
 
         RelativeLayout:
 
@@ -167,13 +116,13 @@ Screen_Management:
                 cols: 2
                 padding : 30, 20, 30, 0
                 spacing: 0, 0
-                opacity: 0
+                opacity: 1
                 row_default_height: 40
                 row_force_default: True
 
                 CustomLabel:
                     id : username
-                    text: 'Username'
+                    text: 'You'
                     text_size: self.size
                     valign: 'middle'
                     size_hint_x: None
@@ -183,7 +132,7 @@ Screen_Management:
                     id: text_username
 
                 CustomLabel:
-                    text: 'Password'
+                    text: 'Target'
                     text_size: self.size
                     valign: 'middle'
                     size_hint_x: None
@@ -192,66 +141,6 @@ Screen_Management:
                 SingleLineTextInput:
                     id: txt_age
 
-            Button:
-                text : 'Please choose the social media'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_y: 0.4
-                size_hint_x: 0.8
-                height: '0dp'
-                id: warning
-
-            GridLayout:
-                cols: 3
-                padding : 150, 120, 150, 0
-                spacing: 0, 0
-                row_default_height: 20
-                row_force_default: True
-
-                CustomLabel:
-                    id: now
-                    text: '1'
-                    text_size: self.size
-                    valign: 'middle'
-                    size_hint_x: None
-                    width: 20
-
-                CustomLabel:
-                    text: '/'
-                    text_size: self.size
-                    valign: 'middle'
-                    size_hint_x: None
-                    width: 10
-
-                CustomLabel:
-                    id: total
-                    text: '1'
-                    text_size: self.size
-                    valign: 'middle'
-                    size_hint_x: None
-                    width: 20
-
-        GridLayout:
-            cols: 3
-            padding : 60, 60, 60, 0
-            spacing: 0, 0
-            row_default_height: 10
-            row_force_default: True
-
-            GreenButton:
-                id: previous
-                text: 'Previous'
-                font_size: 14
-                on_press: root.go_previous()
-
-            Label:
-                valign: "top"
-                font_size: '30sp'
-                size_hint_y: 2.0
-
-            GreenButton:
-                id: go_next
-                text: 'Next'
-                on_press: root.goto_next(text_username.text)
 
         Button:
             text : 'Analysis'
